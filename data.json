@@ -1,11 +1,10 @@
 {
-  "appTitle": "VANTIX Pro",
-  "appSubtitle": "Premium HD Android Streaming Platform",
-  "version": "1.0.2 Stable Release",
-  "platform": "Android Studio (Native Development)",
-  "appServerStatus": "Online",
-  "currentFeatures": "HD Streaming, Secure Login, Movie Slider",
-  "upcoming": "Multi-Server Support",
-  "about": "Vantix Pro is a high-performance Android streaming application developed by Kanil Kanchana..."
+  "appTitle": "",
+  "appSubtitle": "",
+  "version": "",
+  "platform": "",
+  "status": "Online",
+  "currentFeatures": "",
+  "upcoming": "",
+  "about": ""
 }
-
