@@ -3,7 +3,7 @@
   "appSubtitle": "The Next Generation of Native Android Streaming",
   "version": "1.0.2 Stable Build",
   "platform": "Android Studio (Native Kotlin & C++)",
-  "appServerStatus": "Maintening",
+  "appServerStatus": "Crash",
   "statusMessage": "Server Upgrading: We are integrating Server 2 for 4K streaming. Expected back online at 6:00 PM.",
   "currentFeatures": "HD Streaming (Server 1), Secure Beta Login, Dynamic Movie Slider, Ad-Free UI",
   "upcoming": "Live TV Integration, 4K HDR Support, Multi-Server Switching, Watch Party Beta",
