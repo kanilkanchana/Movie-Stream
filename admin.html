@@ -2,55 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Moviestream | Admin Console</title>
+    <title>Admin | Moviestream Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background: #020617; color: white; font-family: 'Inter', sans-serif; }
         .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        input, textarea { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 8px; color: white; width: 100%; outline: none; transition: 0.3s; }
-        input:focus { border-color: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
-        label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; margin-top: 15px; }
+        input, textarea { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 8px; color: white; width: 100%; outline: none; transition: 0.3s; margin-bottom: 15px; }
+        input:focus { border-color: #ef4444; }
+        label { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; }
     </style>
 </head>
-<body class="p-6 md:p-12 flex flex-col items-center">
+<body class="p-6 flex flex-col items-center min-h-screen justify-center">
 
-    <div class="w-full max-w-2xl glass-card p-8 rounded-[2rem] shadow-2xl">
-        <h1 class="text-2xl font-black text-red-600 mb-6 italic tracking-tighter uppercase">Admin Settings</h1>
+    <div class="w-full max-w-2xl glass-card p-8 rounded-[2rem]">
+        <h1 class="text-xl font-black text-red-600 mb-6 uppercase tracking-widest italic text-center">Admin Console</h1>
         
-        <div class="bg-red-600/10 p-4 rounded-xl border border-red-600/20 mb-8">
-            <label style="margin-top: 0; color: #ef4444;">GitHub Personal Access Token</label>
-            <input type="password" id="githubToken" placeholder="github_pat_xxxxxxx" class="!bg-black/40">
-            <p class="text-[10px] text-gray-500 mt-2">Required to push live updates to GitHub.</p>
-        </div>
+        <label>GitHub Token</label>
+        <input type="password" id="githubToken" placeholder="Paste token here" class="!bg-black/20">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+        <div class="grid grid-cols-2 gap-x-4">
             <div><label>App Title</label><input type="text" id="appTitle"></div>
-            <div><label>Subheading</label><input type="text" id="appSubtitle"></div>
+            <div><label>Subtitle</label><input type="text" id="appSubtitle"></div>
             <div><label>Version</label><input type="text" id="version"></div>
-            <div><label>Engine/Platform</label><input type="text" id="platform"></div>
-            <div><label>Project Status</label><input type="text" id="status"></div>
-            <div><label>Next Feature</label><input type="text" id="upcoming"></div>
+            <div><label>Engine</label><input type="text" id="platform"></div>
+            <div><label>Status</label><input type="text" id="status"></div>
+            <div><label>Upcoming</label><input type="text" id="upcoming"></div>
         </div>
 
-        <label>Description</label>
-        <textarea id="about" rows="4"></textarea>
+        <label>Current Features (Separate with commas)</label>
+        <input type="text" id="currentFeatures" placeholder="Feature 1, Feature 2, Feature 3">
 
-        <button onclick="pushUpdate()" id="btn" class="w-full bg-red-600 hover:bg-red-700 mt-6 py-4 rounded-xl font-black uppercase tracking-widest transition-all">
-            Update Live Repository
+        <label>About App</label>
+        <textarea id="about" rows="3"></textarea>
+
+        <button onclick="pushUpdate()" id="btn" class="w-full bg-red-600 hover:bg-red-700 py-4 rounded-xl font-black uppercase tracking-widest transition-all">
+            Update Live Database
         </button>
     </div>
 
     <script>
         const USER = "kanilkanchana";
-        const REPO = "YOUR_REPO_NAME"; // <-- CHANGE THIS
+        const REPO = "Movie-Stream"; 
         const FILE = "data.json";
 
         async function pushUpdate() {
             const token = document.getElementById('githubToken').value;
-            if(!token) { alert("Please enter your GitHub Token at the top!"); return; }
+            if(!token) return alert("Enter Token!");
 
             const btn = document.getElementById('btn');
-            btn.innerText = "PUSHING DATA...";
+            btn.innerText = "PUSHING...";
             btn.disabled = true;
 
             const newData = {
@@ -59,6 +59,7 @@
                 version: document.getElementById('version').value,
                 platform: document.getElementById('platform').value,
                 status: document.getElementById('status').value,
+                currentFeatures: document.getElementById('currentFeatures').value,
                 upcoming: document.getElementById('upcoming').value,
                 about: document.getElementById('about').value
             };
@@ -67,23 +68,22 @@
 
             try {
                 const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` }});
-                if(!getFile.ok) throw new Error("Could not find data.json or Token is invalid");
                 const fileData = await getFile.json();
                 
                 const response = await fetch(url, {
                     method: "PUT",
                     headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        message: "Admin Live Update",
+                        message: "Admin Update",
                         content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
                         sha: fileData.sha
                     })
                 });
 
-                if(response.ok) alert("✅ UPDATE SUCCESSFUL!");
-                else alert("❌ FAILED: Check Token Permissions");
+                if(response.ok) alert("✅ UPDATED!");
+                else alert("❌ FAILED");
             } catch (e) { alert("Error: " + e.message); }
-            finally { btn.innerText = "Update Live Repository"; btn.disabled = false; }
+            finally { btn.innerText = "Update Live Database"; btn.disabled = false; }
         }
     </script>
 </body>
