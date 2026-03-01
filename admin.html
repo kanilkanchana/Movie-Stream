@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin | Vantix Pro Control</title>
+    <title>Admin | Vantix Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background: #020617; color: white; font-family: 'Inter', sans-serif; }
@@ -10,54 +10,49 @@
         input, textarea, select { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 8px; color: white; width: 100%; outline: none; transition: 0.3s; margin-bottom: 15px; }
         input:focus, select:focus { border-color: #ef4444; }
         label { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; }
-        .status-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 20px; }
     </style>
 </head>
 <body class="p-6 flex flex-col items-center min-h-screen">
-
     <div class="w-full max-w-2xl glass-card p-8 rounded-[2rem] shadow-2xl my-10">
         <h1 class="text-xl font-black text-red-600 mb-6 uppercase tracking-widest italic text-center">System Command Center</h1>
         
         <label>GitHub Personal Access Token</label>
-        <input type="password" id="githubToken" placeholder="Paste your secret token here" class="!bg-black/40">
+        <input type="password" id="githubToken" placeholder="Paste Token Here" class="!bg-black/40">
 
-        <div class="status-box">
-            <h3 class="text-xs font-bold text-red-500 mb-4 tracking-widest">SERVER CONTROL PANEL</h3>
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label>App Server Status</label>
-                    <select id="appServerStatus">
-                        <option value="Online">Online</option>
-                        <option value="Disconnected">Disconnected</option>
-                        <option value="Crash">Crash</option>
-                        <option value="Maintening">Maintening</option>
-                    </select>
-                </div>
-                <div>
-                    <label>App Status Badge</label>
-                    <input type="text" id="status" placeholder="e.g. Production Ready">
-                </div>
+        <div class="grid grid-cols-2 gap-4 bg-black/20 p-4 rounded-xl mb-4">
+            <div>
+                <label>App Server Status</label>
+                <select id="appServerStatus">
+                    <option value="Online">Online</option>
+                    <option value="Offline">Offline</option>
+                    <option value="Maintening">Maintening</option>
+                    <option value="Crash">Crash</option>
+                </select>
+            </div>
+            <div>
+                <label>App Title</label>
+                <input type="text" id="appTitle">
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-x-4">
-            <div><label>App Title</label><input type="text" id="appTitle"></div>
             <div><label>Subtitle</label><input type="text" id="appSubtitle"></div>
             <div><label>Version</label><input type="text" id="version"></div>
-            <div><label>Engine</label><input type="text" id="platform"></div>
+            <div><label>Platform</label><input type="text" id="platform"></div>
+            <div><label>Status Badge</label><input type="text" id="status"></div>
         </div>
 
-        <label>Current Features (Separate with commas)</label>
-        <input type="text" id="currentFeatures" placeholder="Feature 1, Feature 2, Feature 3">
+        <label>Current Features (comma separated)</label>
+        <input type="text" id="currentFeatures">
 
-        <label>Upcoming Feature</label>
-        <input type="text" id="upcoming">
+        <label>Upcoming Features (Comma separated for List view)</label>
+        <input type="text" id="upcoming" placeholder="Live TV, Multi-Server, 4K Support">
 
-        <label>About App Description</label>
-        <textarea id="about" rows="4"></textarea>
+        <label>About Description</label>
+        <textarea id="about" rows="3"></textarea>
 
         <button onclick="pushUpdate()" id="btn" class="w-full bg-red-600 hover:bg-red-700 py-4 rounded-xl font-black uppercase tracking-widest transition-all">
-            Deploy Updates to Live Site
+            Deploy Live Update
         </button>
     </div>
 
@@ -68,10 +63,9 @@
 
         async function pushUpdate() {
             const token = document.getElementById('githubToken').value;
-            if(!token) return alert("Please enter your GitHub Token!");
-
+            if(!token) return alert("Enter Token!");
             const btn = document.getElementById('btn');
-            btn.innerText = "CONNECTING TO GITHUB...";
+            btn.innerText = "PUSHING DATA...";
             btn.disabled = true;
 
             const newData = {
@@ -80,48 +74,31 @@
                 version: document.getElementById('version').value,
                 platform: document.getElementById('platform').value,
                 status: document.getElementById('status').value,
-                appServerStatus: document.getElementById('appServerStatus').value, // This is the new part
+                appServerStatus: document.getElementById('appServerStatus').value,
                 currentFeatures: document.getElementById('currentFeatures').value,
                 upcoming: document.getElementById('upcoming').value,
                 about: document.getElementById('about').value
             };
 
-            const url = `https://api.github.com/repos/${USER}/${REPO}/contents/${FILE}`;
-
             try {
-                // 1. Get current file data (to get the SHA)
-                const getFile = await fetch(url, { 
-                    headers: { "Authorization": `token ${token}` }
-                });
-                
-                if(!getFile.ok) throw new Error("Could not find data.json or Token is invalid");
+                const url = `https://api.github.com/repos/${USER}/${REPO}/contents/${FILE}`;
+                const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` }});
                 const fileData = await getFile.json();
                 
-                // 2. Push the new data
                 const response = await fetch(url, {
                     method: "PUT",
-                    headers: { 
-                        "Authorization": `token ${token}`, 
-                        "Content-Type": "application/json" 
-                    },
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        message: "System Status Update",
+                        message: "Admin Update",
                         content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
                         sha: fileData.sha
                     })
                 });
 
-                if(response.ok) {
-                    alert("✅ SUCCESS: Server is now " + newData.appServerStatus);
-                } else {
-                    alert("❌ FAILED: Check Token Permissions");
-                }
-            } catch (e) { 
-                alert("Error: " + e.message); 
-            } finally { 
-                btn.innerText = "Deploy Updates to Live Site"; 
-                btn.disabled = false; 
-            }
+                if(response.ok) alert("✅ UPDATED: Server is " + newData.appServerStatus);
+                else alert("❌ FAILED: Check Token Permissions");
+            } catch (e) { alert("Error: " + e.message); }
+            finally { btn.innerText = "Deploy Live Update"; btn.disabled = false; }
         }
     </script>
 </body>
