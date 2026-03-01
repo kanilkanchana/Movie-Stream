@@ -3,7 +3,7 @@
   "appSubtitle": "Premium HD Android Streaming Platform",
   "version": "1.0.2 Stable Release",
   "platform": "Android Studio (Native Development)",
-  "appServerStatus": "Online",
+  "appServerStatus": "Crash",
   "status": "Production Ready",
   "currentFeatures": "HD Streaming, Secure Login, Movie Slider",
   "upcoming": "Multi-Server Support, Live TV Integration, 4K Playback",
