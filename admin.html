@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Moviestream | Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #0f172a; color: white; }
+        .field-label { font-size: 0.75rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-left: 4px; }
+        input, textarea { background: #1e293b; border: 1px solid #334155; padding: 12px; border-radius: 12px; color: white; width: 100%; margin-bottom: 20px; outline: none; transition: border 0.3s; }
+        input:focus { border-color: #ef4444; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-6">
+    <div class="w-full max-w-xl bg-slate-900 p-10 rounded-[2.5rem] shadow-2xl border border-white/5">
+        <h1 class="text-3xl font-black mb-8 text-center bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent italic">ADMIN CONSOLE</h1>
+        
+        <div class="space-y-1">
+            <span class="field-label">Project Title</span>
+            <input type="text" id="appTitle" placeholder="e.g. MOVIESTREAM">
+            
+            <span class="field-label">Premium Label</span>
+            <input type="text" id="appSubtitle" placeholder="e.g. Version 1.0 (Premium Build)">
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <span class="field-label">Build Version</span>
+                    <input type="text" id="version">
+                </div>
+                <div>
+                    <span class="field-label">Development Engine</span>
+                    <input type="text" id="platform">
+                </div>
+            </div>
+
+            <span class="field-label">Project Status</span>
+            <input type="text" id="status" placeholder="e.g. Active Development">
+
+            <span class="field-label">Upcoming Feature</span>
+            <input type="text" id="upcoming" placeholder="e.g. User Profiles">
+
+            <span class="field-label">App Description</span>
+            <textarea id="about" rows="3"></textarea>
+
+            <button onclick="pushUpdate()" id="btn" class="w-full bg-red-600 hover:bg-red-700 py-4 rounded-2xl font-extrabold uppercase tracking-widest transition-all mt-4">
+                Update Live Site
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const USER = "kanilkanchana";
+        const REPO = "YOUR_REPO_NAME"; // Change this
+        const FILE = "data.json";
+
+        async function pushUpdate() {
+            const token = prompt("Enter GitHub Token:");
+            if(!token) return;
+
+            const btn = document.getElementById('btn');
+            btn.innerText = "PUSHING TO GITHUB...";
+            btn.disabled = true;
+
+            const newData = {
+                appTitle: document.getElementById('appTitle').value,
+                appSubtitle: document.getElementById('appSubtitle').value,
+                version: document.getElementById('version').value,
+                platform: document.getElementById('platform').value,
+                status: document.getElementById('status').value,
+                upcoming: document.getElementById('upcoming').value,
+                about: document.getElementById('about').value
+            };
+
+            const url = `https://api.github.com/repos/${USER}/${REPO}/contents/${FILE}`;
+
+            try {
+                const getFile = await fetch(url);
+                const fileData = await getFile.json();
+                
+                const response = await fetch(url, {
+                    method: "PUT",
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        message: "Live update from Admin Panel",
+                        content: btoa(JSON.stringify(newData, null, 2)),
+                        sha: fileData.sha
+                    })
+                });
+
+                if(response.ok) alert("✅ SITE UPDATED SUCCESSFULLY!");
+                else alert("❌ UPDATE FAILED.");
+            } catch (e) { alert("Error: " + e.message); }
+            finally { btn.innerText = "Update Live Site"; btn.disabled = false; }
+        }
+    </script>
+</body>
+</html>
