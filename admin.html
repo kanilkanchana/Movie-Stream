@@ -2,41 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin | Moviestream Pro</title>
+    <title>Admin | Vantix Pro Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { background: #020617; color: white; font-family: 'Inter', sans-serif; }
         .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        input, textarea { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 8px; color: white; width: 100%; outline: none; transition: 0.3s; margin-bottom: 15px; }
-        input:focus { border-color: #ef4444; }
+        input, textarea, select { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 8px; color: white; width: 100%; outline: none; transition: 0.3s; margin-bottom: 15px; }
+        input:focus, select:focus { border-color: #ef4444; }
         label { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 5px; }
+        .status-box { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px solid rgba(239, 68, 68, 0.2); margin-bottom: 20px; }
     </style>
 </head>
-<body class="p-6 flex flex-col items-center min-h-screen justify-center">
+<body class="p-6 flex flex-col items-center min-h-screen">
 
-    <div class="w-full max-w-2xl glass-card p-8 rounded-[2rem]">
-        <h1 class="text-xl font-black text-red-600 mb-6 uppercase tracking-widest italic text-center">Admin Console</h1>
+    <div class="w-full max-w-2xl glass-card p-8 rounded-[2rem] shadow-2xl my-10">
+        <h1 class="text-xl font-black text-red-600 mb-6 uppercase tracking-widest italic text-center">System Command Center</h1>
         
-        <label>GitHub Token</label>
-        <input type="password" id="githubToken" placeholder="Paste token here" class="!bg-black/20">
+        <label>GitHub Personal Access Token</label>
+        <input type="password" id="githubToken" placeholder="Paste your secret token here" class="!bg-black/40">
+
+        <div class="status-box">
+            <h3 class="text-xs font-bold text-red-500 mb-4 tracking-widest">SERVER CONTROL PANEL</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label>App Server Status</label>
+                    <select id="appServerStatus">
+                        <option value="Online">Online</option>
+                        <option value="Disconnected">Disconnected</option>
+                        <option value="Crash">Crash</option>
+                        <option value="Maintening">Maintening</option>
+                    </select>
+                </div>
+                <div>
+                    <label>App Status Badge</label>
+                    <input type="text" id="status" placeholder="e.g. Production Ready">
+                </div>
+            </div>
+        </div>
 
         <div class="grid grid-cols-2 gap-x-4">
             <div><label>App Title</label><input type="text" id="appTitle"></div>
             <div><label>Subtitle</label><input type="text" id="appSubtitle"></div>
             <div><label>Version</label><input type="text" id="version"></div>
             <div><label>Engine</label><input type="text" id="platform"></div>
-            <div><label>Status</label><input type="text" id="status"></div>
-            <div><label>Upcoming</label><input type="text" id="upcoming"></div>
         </div>
 
         <label>Current Features (Separate with commas)</label>
         <input type="text" id="currentFeatures" placeholder="Feature 1, Feature 2, Feature 3">
 
-        <label>About App</label>
-        <textarea id="about" rows="3"></textarea>
+        <label>Upcoming Feature</label>
+        <input type="text" id="upcoming">
+
+        <label>About App Description</label>
+        <textarea id="about" rows="4"></textarea>
 
         <button onclick="pushUpdate()" id="btn" class="w-full bg-red-600 hover:bg-red-700 py-4 rounded-xl font-black uppercase tracking-widest transition-all">
-            Update Live Database
+            Deploy Updates to Live Site
         </button>
     </div>
 
@@ -47,10 +68,10 @@
 
         async function pushUpdate() {
             const token = document.getElementById('githubToken').value;
-            if(!token) return alert("Enter Token!");
+            if(!token) return alert("Please enter your GitHub Token!");
 
             const btn = document.getElementById('btn');
-            btn.innerText = "PUSHING...";
+            btn.innerText = "CONNECTING TO GITHUB...";
             btn.disabled = true;
 
             const newData = {
@@ -59,6 +80,7 @@
                 version: document.getElementById('version').value,
                 platform: document.getElementById('platform').value,
                 status: document.getElementById('status').value,
+                appServerStatus: document.getElementById('appServerStatus').value, // This is the new part
                 currentFeatures: document.getElementById('currentFeatures').value,
                 upcoming: document.getElementById('upcoming').value,
                 about: document.getElementById('about').value
@@ -67,23 +89,39 @@
             const url = `https://api.github.com/repos/${USER}/${REPO}/contents/${FILE}`;
 
             try {
-                const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` }});
+                // 1. Get current file data (to get the SHA)
+                const getFile = await fetch(url, { 
+                    headers: { "Authorization": `token ${token}` }
+                });
+                
+                if(!getFile.ok) throw new Error("Could not find data.json or Token is invalid");
                 const fileData = await getFile.json();
                 
+                // 2. Push the new data
                 const response = await fetch(url, {
                     method: "PUT",
-                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+                    headers: { 
+                        "Authorization": `token ${token}`, 
+                        "Content-Type": "application/json" 
+                    },
                     body: JSON.stringify({
-                        message: "Admin Update",
+                        message: "System Status Update",
                         content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
                         sha: fileData.sha
                     })
                 });
 
-                if(response.ok) alert("✅ UPDATED!");
-                else alert("❌ FAILED");
-            } catch (e) { alert("Error: " + e.message); }
-            finally { btn.innerText = "Update Live Database"; btn.disabled = false; }
+                if(response.ok) {
+                    alert("✅ SUCCESS: Server is now " + newData.appServerStatus);
+                } else {
+                    alert("❌ FAILED: Check Token Permissions");
+                }
+            } catch (e) { 
+                alert("Error: " + e.message); 
+            } finally { 
+                btn.innerText = "Deploy Updates to Live Site"; 
+                btn.disabled = false; 
+            }
         }
     </script>
 </body>
