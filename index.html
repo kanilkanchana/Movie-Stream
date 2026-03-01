@@ -3,54 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moviestream | Experience Premium Cinema</title>
+    <title>Moviestream Pro | Official Build</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
-        
-        body { 
-            background-color: #020617; 
-            color: #f8fafc; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow-x: hidden; 
-        }
-
-        /* Sophisticated Background Glow */
-        .hero-glow { 
-            background: radial-gradient(circle at 50% -10%, #310a0a 0%, #020617 60%);
-        }
-
-        /* Glassmorphism Refined */
-        .glass { 
-            background: rgba(255, 255, 255, 0.01); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            transition: all 0.4s ease;
-        }
-        
-        .glass:hover {
-            background: rgba(255, 255, 255, 0.03);
-            border-color: rgba(220, 38, 38, 0.2);
-            transform: translateY(-5px);
-        }
-
-        /* Premium Button Style */
-        .red-btn { 
-            background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%); 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            letter-spacing: 0.05em;
-        }
-        
-        .red-btn:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 15px 40px rgba(220, 38, 38, 0.25); 
-        }
-
-        .text-gradient {
-            background: linear-gradient(to bottom, #ffffff 30%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        body { background-color: #020617; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .hero-glow { background: radial-gradient(circle at 50% -10%, #310a0a 0%, #020617 60%); }
+        .glass { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .red-btn { background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%); transition: all 0.4s ease; }
+        .red-btn:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2); }
+        .feature-tag { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #f87171; }
     </style>
 </head>
 <body class="hero-glow min-h-screen">
@@ -58,86 +20,57 @@
     <nav class="max-w-6xl mx-auto p-8 flex justify-between items-center">
         <div class="flex items-center gap-2">
             <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center font-bold">M</div>
-            <span class="text-xl font-extrabold tracking-tight uppercase">Moviestream</span>
+            <span class="text-xl font-extrabold tracking-tight uppercase">Moviestream <span class="text-red-500">Pro</span></span>
         </div>
-        <div class="flex gap-6 items-center">
-            <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="text-sm font-medium text-gray-400 hover:text-white transition">Portfolio</a>
-            <a href="#details" class="glass px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest">Details</a>
-        </div>
+        <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="glass px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition">The Creator</a>
     </nav>
 
-    <header class="max-w-5xl mx-auto text-center pt-20 pb-24 px-6">
-        <div id="status" class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] mb-6 text-red-400">
+    <header class="max-w-5xl mx-auto text-center pt-16 pb-20 px-6">
+        <div id="status" class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 text-red-400">
             <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-            INITIALIZING...
+            LOADING...
         </div>
-        
-        <h1 id="appTitle" class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tighter text-gradient leading-tight">
-            THE FUTURE OF <br> ANDROID STREAMING
-        </h1>
-        
-        <p id="appSubtitle" class="text-gray-400 text-base md:text-lg max-w-xl mx-auto mb-10 font-medium leading-relaxed">
-            A high-performance cinematic experience built for stability and speed.
-        </p>
-        
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <button class="red-btn px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest">Download App</button>
-            <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="glass px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest flex items-center justify-center">About Creator</a>
-        </div>
+        <h1 id="appTitle" class="text-5xl md:text-6xl font-extrabold mb-4 tracking-tighter leading-tight uppercase">--</h1>
+        <p id="appSubtitle" class="text-gray-400 text-base md:text-lg max-w-xl mx-auto mb-10 font-medium">--</p>
+        <button class="red-btn px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg">Download Latest APK</button>
     </header>
 
-    <main id="details" class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6 pb-20">
-        <div class="glass p-8 rounded-3xl">
-            <div class="w-10 h-10 bg-red-600/10 rounded-lg flex items-center justify-center mb-6">
-                <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+    <main class="max-w-6xl mx-auto px-6 pb-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="glass p-8 rounded-3xl">
+                <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-4">Software Version</h4>
+                <p id="version" class="text-xl font-semibold">--</p>
             </div>
-            <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-2">Build Engine</h4>
-            <p id="platform" class="text-xl font-semibold">--</p>
+            <div class="glass p-8 rounded-3xl">
+                <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-4">Engine / Framework</h4>
+                <p id="platform" class="text-xl font-semibold">--</p>
+            </div>
         </div>
 
-        <div class="glass p-8 rounded-3xl border-b-2 border-b-red-600">
-            <div class="w-10 h-10 bg-red-600/10 rounded-lg flex items-center justify-center mb-6">
-                <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-            </div>
-            <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-2">Software Version</h4>
-            <p id="version" class="text-xl font-semibold">--</p>
-        </div>
-
-        <div class="glass p-8 rounded-3xl">
-            <div class="w-10 h-10 bg-red-600/10 rounded-lg flex items-center justify-center mb-6">
-                <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-            </div>
-            <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-2">Pipeline</h4>
-            <p id="upcoming" class="text-xl font-semibold">--</p>
-        </div>
-
-        <section class="glass p-10 md:p-14 rounded-[2.5rem] md:col-span-3">
-            <div class="flex flex-col md:flex-row gap-10 items-center">
-                <div class="flex-1">
-                    <h2 class="text-3xl font-bold mb-6 tracking-tight">Project Vision</h2>
-                    <p id="about" class="text-gray-400 text-base leading-relaxed mb-8">
-                        Establishing a new standard for native Android media playback.
-                    </p>
-                    <div class="h-[1px] w-20 bg-red-600 mb-8"></div>
-                    <p class="text-xs font-bold uppercase tracking-widest text-white mb-2">Developed By</p>
-                    <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="text-red-500 hover:text-red-400 font-bold text-lg transition underline decoration-1 underline-offset-8">Kanil Kanchana</a>
+        <div class="glass p-10 rounded-[2.5rem] mb-12">
+            <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                <span class="w-2 h-6 bg-red-600 rounded-full"></span> Active Features
+            </h2>
+            <div id="featuresList" class="flex flex-wrap gap-3 italic">
                 </div>
-                <div class="hidden md:block w-px h-40 bg-white/5"></div>
-                <div class="flex-1 text-center md:text-left">
-                    <p class="text-gray-500 text-sm mb-4 italic">"Focusing on speed, security, and a seamless interface."</p>
-                    <div class="flex justify-center md:justify-start gap-3">
-                        <span class="px-3 py-1 bg-white/5 rounded-md text-[10px] font-bold">STABLE</span>
-                        <span class="px-3 py-1 bg-white/5 rounded-md text-[10px] font-bold">AD-FREE</span>
-                        <span class="px-3 py-1 bg-white/5 rounded-md text-[10px] font-bold">NATIVE</span>
-                    </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <section class="glass p-10 rounded-[2.5rem] md:col-span-2">
+                <h2 class="text-xl font-bold mb-4 uppercase tracking-tight">Project Overview</h2>
+                <p id="about" class="text-gray-400 text-sm leading-relaxed mb-6">--</p>
+                <div class="pt-6 border-t border-white/5">
+                    <p class="text-[10px] font-bold uppercase text-gray-500 mb-1">Lead Developer</p>
+                    <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="text-red-500 font-bold hover:underline">Kanil Kanchana</a>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            <section class="glass p-10 rounded-[2.5rem] border-t-4 border-t-red-600">
+                <h2 class="text-xl font-bold mb-4 uppercase tracking-tight">Pipeline</h2>
+                <p id="upcoming" class="text-gray-400 text-sm leading-relaxed italic">--</p>
+            </section>
+        </div>
     </main>
-
-    <footer class="max-w-6xl mx-auto p-12 text-center text-gray-600 text-[10px] font-bold uppercase tracking-widest border-t border-white/5">
-        &copy; 2026 Moviestream. All Rights Reserved.
-    </footer>
 
     <script>
         const USER = "kanilkanchana";
@@ -147,20 +80,25 @@
         async function load() {
             try {
                 const r = await fetch(`https://raw.githubusercontent.com/${USER}/${REPO}/main/${FILE}?t=${Date.now()}`);
-                if (!r.ok) throw new Error("File not found");
                 const d = await r.json();
                 
-                document.getElementById('appTitle').innerHTML = d.appTitle;
+                document.getElementById('appTitle').innerText = d.appTitle;
                 document.getElementById('appSubtitle').innerText = d.appSubtitle;
                 document.getElementById('version').innerText = d.version;
                 document.getElementById('platform').innerText = d.platform;
                 document.getElementById('status').innerHTML = `<span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span> ${d.status}`;
                 document.getElementById('upcoming').innerText = d.upcoming;
                 document.getElementById('about').innerText = d.about;
-            } catch(e) { 
-                console.error("Load failed:", e);
-                document.getElementById('about').innerText = "Check data.json exists in your GitHub repository.";
-            }
+
+                // Load Current Features as Tags
+                const features = d.currentFeatures.split(',');
+                const list = document.getElementById('featuresList');
+                list.innerHTML = '';
+                features.forEach(f => {
+                    list.innerHTML += `<span class="feature-tag px-4 py-2 rounded-lg text-xs font-semibold">${f.trim()}</span>`;
+                });
+
+            } catch(e) { console.error("Load failed", e); }
         }
         window.onload = load;
     </script>
