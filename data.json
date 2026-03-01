@@ -4,7 +4,8 @@
   "version": "1.0.2 Stable Release",
   "platform": "Android Studio (Native Development)",
   "status": "Production Ready",
-  "currentFeatures": "HD Streaming (Server 1), Secure Beta Login System, Dynamic Movie Slider, New & Hot Section",
-  "upcoming": "Multi-Server Streaming Support, Live TV Integration",
+  "currentFeatures": "HD Streaming (Server 1), Secure Beta Login System, Dynamic Movie Slider",
+  "upcoming": "Multi-Server Streaming Support"<br> "Live TV Integration",
   "about": "Moviestream Pro is a high-performance Android streaming application developed by Kanil Kanchana. The platform currently delivers stable HD playback through Server 1, supported by a secure beta authentication system. The application includes a dynamic movie slider, a curated New & Hot section, and a clean ad-free interface designed for smooth navigation. Built using native Android development practices, the project demonstrates efficient backend integration and optimized media streaming for a reliable cinematic experience on mobile devices."
 }
+
