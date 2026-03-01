@@ -1,11 +1,11 @@
 {
-  "appTitle": "",
-  "appSubtitle": "",
-  "version": "",
-  "platform": "",
-  "status": "",
-  "appServerStatus": "Offline",
-  "currentFeatures": "",
-  "upcoming": "",
-  "about": ""
+  "appTitle": "VANTIX Pro",
+  "appSubtitle": "Premium HD Android Streaming Platform",
+  "version": "1.0.2 Stable Release",
+  "platform": "Android Studio (Native Development)",
+  "appServerStatus": "Online",
+  "status": "Production Ready",
+  "currentFeatures": "HD Streaming, Secure Login, Movie Slider",
+  "upcoming": "Multi-Server Support, Live TV Integration, 4K Playback",
+  "about": "Vantix Pro is a high-performance Android streaming application..."
 }
