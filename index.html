@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moviestream Pro | Official</title>
+    <title>Vantix Pro | System Status</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
@@ -11,70 +11,73 @@
         .hero-glow { background: radial-gradient(circle at 50% -10%, #310a0a 0%, #020617 60%); }
         .glass { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
         .red-btn { background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%); transition: 0.4s ease; }
-        .red-btn:hover { transform: scale(1.02); box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2); }
         .feature-tag { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #f87171; }
+        
+        /* Status Colors */
+        .status-online { color: #22c55e; }
+        .status-offline { color: #ef4444; }
+        .status-maintenance { color: #f59e0b; }
     </style>
 </head>
 <body class="hero-glow min-h-screen">
 
+    <div id="alertBanner" class="hidden bg-red-600 text-white text-center py-2 text-xs font-bold uppercase tracking-widest">
+        ⚠️ App Server is currently offline for maintenance. Website features remain active.
+    </div>
+
     <nav class="max-w-6xl mx-auto p-8 flex justify-between items-center">
         <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center font-bold italic">M</div>
-            <span class="text-xl font-extrabold tracking-tight uppercase italic">Moviestream <span class="text-red-500">PRO</span></span>
+            <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center font-bold italic">V</div>
+            <span class="text-xl font-extrabold tracking-tight uppercase italic">Vantix <span class="text-red-500">PRO</span></span>
         </div>
-        <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="glass px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition">The Creator</a>
+        <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="glass px-5 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition">Creator</a>
     </nav>
 
-    <header class="max-w-5xl mx-auto text-center pt-16 pb-20 px-6">
-        <div id="status" class="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 text-red-400">
-            <span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span>
-            Syncing System...
+    <header class="max-w-5xl mx-auto text-center pt-10 pb-16 px-6">
+        <h1 id="appTitle" class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tighter uppercase leading-tight">--</h1>
+        <p id="appSubtitle" class="text-gray-400 text-base italic mb-10">--</p>
+        
+        <div class="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-10">
+            <div class="glass p-4 rounded-2xl border-t-2 border-green-500/50">
+                <p class="text-[10px] font-black text-gray-500 uppercase mb-1">Site Server</p>
+                <p id="siteStatus" class="text-sm font-bold status-online tracking-widest uppercase italic font-black text-green-500">Online</p>
+            </div>
+            <div class="glass p-4 rounded-2xl border-t-2 border-red-500/50" id="appStatusCard">
+                <p class="text-[10px] font-black text-gray-500 uppercase mb-1">App Server</p>
+                <p id="appStatus" class="text-sm font-bold tracking-widest uppercase italic font-black">--</p>
+            </div>
         </div>
-        <h1 id="appTitle" class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tighter leading-tight uppercase">--</h1>
-        <p id="appSubtitle" class="text-gray-400 text-base md:text-lg max-w-xl mx-auto mb-10 font-medium italic">--</p>
-        <button class="red-btn px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg">Download Latest Build</button>
+
+        <button class="red-btn px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg">Download Build</button>
     </header>
 
     <main class="max-w-6xl mx-auto px-6 pb-20">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div class="glass p-8 rounded-3xl">
-                <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-4">Software Version</h4>
+                <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-4">Version Control</h4>
                 <p id="version" class="text-xl font-semibold">--</p>
             </div>
             <div class="glass p-8 rounded-3xl">
-                <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-4">Build Environment</h4>
+                <h4 class="text-gray-500 text-[10px] font-black uppercase tracking-widest mb-4">Native Engine</h4>
                 <p id="platform" class="text-xl font-semibold">--</p>
             </div>
         </div>
 
         <div class="glass p-10 rounded-[2.5rem] mb-12">
-            <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 uppercase tracking-widest">
                 <span class="w-2 h-5 bg-red-600 rounded-full"></span> Live Features
             </h2>
-            <div id="featuresList" class="flex flex-wrap gap-3 italic">
-                </div>
+            <div id="featuresList" class="flex flex-wrap gap-3 italic"></div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <section class="glass p-10 rounded-[2.5rem] md:col-span-2">
-                <h2 class="text-xl font-bold mb-4 uppercase tracking-tight">Project Overview</h2>
-                <p id="about" class="text-gray-400 text-sm leading-relaxed mb-8">--</p>
-                <div class="pt-6 border-t border-white/5 flex justify-between items-center">
-                    <div>
-                        <p class="text-[10px] font-bold uppercase text-gray-500 mb-1">Developer</p>
-                        <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="text-red-500 font-bold hover:underline italic">Kanil Kanchana</a>
-                    </div>
-                    <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="bg-white/5 hover:bg-white/10 p-3 rounded-full transition">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                    </a>
-                </div>
-            </section>
-
-            <section class="glass p-10 rounded-[2.5rem] border-t-4 border-t-red-600">
-                <h2 class="text-xl font-bold mb-4 uppercase tracking-tight">Upcoming</h2>
-                <p id="upcoming" class="text-gray-400 text-sm leading-relaxed italic">--</p>
-            </section>
-        </div>
+        <section class="glass p-10 rounded-[2.5rem]">
+            <h2 class="text-xl font-bold mb-4 uppercase tracking-tight">Project Overview</h2>
+            <p id="about" class="text-gray-400 text-sm leading-relaxed mb-8">--</p>
+            <div class="pt-6 border-t border-white/5 flex justify-between items-center">
+                <p class="text-red-500 font-bold italic">Developed by Kanil Kanchana</p>
+                <p id="upcoming" class="text-xs text-gray-500 font-bold uppercase tracking-tighter">--</p>
+            </div>
+        </section>
     </main>
 
     <script>
@@ -91,11 +94,28 @@
                 document.getElementById('appSubtitle').innerText = d.appSubtitle;
                 document.getElementById('version').innerText = d.version;
                 document.getElementById('platform').innerText = d.platform;
-                document.getElementById('status').innerHTML = `<span class="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></span> ${d.status}`;
-                document.getElementById('upcoming').innerText = d.upcoming;
+                document.getElementById('upcoming').innerText = "Next: " + d.upcoming;
                 document.getElementById('about').innerText = d.about;
 
-                // Split currentFeatures by comma and create tags
+                // Handle App Server Status Logic
+                const appStatusEl = document.getElementById('appStatus');
+                const appCard = document.getElementById('appStatusCard');
+                const banner = document.getElementById('alertBanner');
+                
+                const status = d.appServerStatus.toLowerCase();
+                appStatusEl.innerText = status;
+
+                if(status === "online") {
+                    appStatusEl.className = "text-sm font-bold status-online tracking-widest uppercase italic";
+                    appCard.style.borderColor = "#22c55e";
+                } else {
+                    // Logic: If App Server is anything but online, show warning
+                    appStatusEl.className = "text-sm font-bold status-offline tracking-widest uppercase italic animate-pulse";
+                    appCard.style.borderColor = "#ef4444";
+                    banner.classList.remove('hidden'); // Show the top red banner
+                    banner.innerText = `⚠️ SYSTEM ALERT: App Server is ${status.toUpperCase()}. Visit Site for Updates.`;
+                }
+
                 if(d.currentFeatures) {
                     const features = d.currentFeatures.split(',');
                     const list = document.getElementById('featuresList');
