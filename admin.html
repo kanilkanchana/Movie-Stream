@@ -24,30 +24,12 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-            <div>
-                <label>App Title</label>
-                <input type="text" id="appTitle">
-            </div>
-            <div>
-                <label>Subheading</label>
-                <input type="text" id="appSubtitle">
-            </div>
-            <div>
-                <label>Version</label>
-                <input type="text" id="version">
-            </div>
-            <div>
-                <label>Engine/Platform</label>
-                <input type="text" id="platform">
-            </div>
-            <div>
-                <label>Project Status</label>
-                <input type="text" id="status">
-            </div>
-            <div>
-                <label>Next Feature</label>
-                <input type="text" id="upcoming">
-            </div>
+            <div><label>App Title</label><input type="text" id="appTitle"></div>
+            <div><label>Subheading</label><input type="text" id="appSubtitle"></div>
+            <div><label>Version</label><input type="text" id="version"></div>
+            <div><label>Engine/Platform</label><input type="text" id="platform"></div>
+            <div><label>Project Status</label><input type="text" id="status"></div>
+            <div><label>Next Feature</label><input type="text" id="upcoming"></div>
         </div>
 
         <label>Description</label>
@@ -60,12 +42,12 @@
 
     <script>
         const USER = "kanilkanchana";
-        const REPO = "YOUR_REPO_NAME"; // <-- IMPORTANT: Update this to your Repo Name
+        const REPO = "YOUR_REPO_NAME"; // <-- CHANGE THIS
         const FILE = "data.json";
 
         async function pushUpdate() {
             const token = document.getElementById('githubToken').value;
-            if(!token) { alert("Please enter your GitHub Token in the top field!"); return; }
+            if(!token) { alert("Please enter your GitHub Token at the top!"); return; }
 
             const btn = document.getElementById('btn');
             btn.innerText = "PUSHING DATA...";
