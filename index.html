@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moviestream | Premium Android App</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(to bottom, #0b0f19, #111827);
+    color: #f1f5f9;
+}
+
+header {
+    background: url('https://images.unsplash.com/photo-1524985069026-dd778a71c7b4') center/cover no-repeat;
+    padding: 100px 20px;
+    text-align: center;
+    background-blend-mode: darken;
+    background-color: rgba(0,0,0,0.7);
+}
+
+header h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 18px;
+    color: #cbd5e1;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+.section {
+    margin-bottom: 50px;
+}
+
+.section h2 {
+    border-left: 5px solid #e50914;
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #1f2937;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.button {
+    background-color: #e50914;
+    color: white;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.button:hover {
+    background-color: #b20710;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.movie-card {
+    background-color: #111827;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 6px;
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    background-color: #0f172a;
+    text-align: center;
+    padding: 20px;
+    color: #94a3b8;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Moviestream</h1>
+    <p>Premium Android Streaming Application | Version 1.0 (Development Build)</p>
+</header>
+
+<div class="container">
+
+    <div class="section">
+        <h2>About the App</h2>
+        <div class="card">
+            <p>
+                Moviestream is a premium Android streaming application developed using Android Studio.
+                The application is designed to deliver a clean, ad-free movie streaming experience
+                with fast loading performance and stable playback.
+            </p>
+            <p>
+                The project is currently under active development. Some features such as full login
+                authentication and personalized recommendations are still being improved.
+                At this stage, users can browse, watch, and review movies.
+            </p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Movie Preview</h2>
+        <div class="grid">
+            <div class="movie-card">
+                <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba" alt="Movie">
+                <h3>Sample Movie</h3>
+                <p>Watch and review feature available</p>
+            </div>
+            <div class="movie-card">
+                <img src="https://images.unsplash.com/photo-1505685296765-3a2736de412f" alt="Movie">
+                <h3>Upcoming Release</h3>
+                <p>Streaming feature in testing</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Project Details</h2>
+        <div class="card">
+            <p><strong>Version:</strong> 1.0 Development Build</p>
+            <p><strong>Platform:</strong> Android</p>
+            <p><strong>Development Tool:</strong> Android Studio</p>
+            <p><strong>Purpose:</strong> To build a high performance, ad-free streaming platform focused on user experience and stable backend integration.</p>
+            <button class="button" onclick="toggleAbout()">About the Creator</button>
+            <div id="aboutSection" class="hidden">
+                <p>
+                    Created and developed by Kanil as a personal Android application project.
+                    This project demonstrates skills in mobile development, backend integration,
+                    user interface design, and streaming system management.
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 Moviestream | Developed by Kanil
+</footer>
+
+<script>
+function toggleAbout() {
+    var section = document.getElementById("aboutSection");
+    if (section.classList.contains("hidden")) {
+        section.classList.remove("hidden");
+    } else {
+        section.classList.add("hidden");
+    }
+}
+</script>
+
+</body>
+</html>
