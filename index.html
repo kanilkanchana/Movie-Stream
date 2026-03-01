@@ -1,258 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vantix Pro | System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
-        body { background-color: #020617; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .hero-glow { background: radial-gradient(circle at 50% -10%, #310a0a 0%, #020617 60%); }
-        .glass { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .feature-tag { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #f87171; }
-    </style>
-</head><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vantix Pro | Official System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
-        body { background-color: #020617; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
-        .hero-glow { background: radial-gradient(circle at 50% -10%, #310a0a 0%, #020617 60%); }
-        .glass { background: rgba(255, 255, 255, 0.01); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .feature-tag { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #f87171; }
-    </style>
-</head>
-<body class="hero-glow min-h-screen">
+<script>
+    const USER = "kanilkanchana";
+    const REPO = "Movie-Stream"; 
+    const FILE = "data.json";
 
-    <div id="alertBanner" class="hidden bg-red-600 text-white text-center py-2 text-[10px] font-black uppercase tracking-[0.2em] sticky top-0 z-50">
-        ⚠️ SYSTEM NOTICE: App Server is currently offline. Use Website features for now.
-    </div>
+    async function load() {
+        try {
+            // Fetch the data
+            const r = await fetch(`https://raw.githubusercontent.com/${USER}/${REPO}/main/${FILE}?t=${Date.now()}`);
+            const d = await r.json();
+            
+            // Basic Info
+            document.getElementById('appTitle').innerText = d.appTitle;
+            document.getElementById('about').innerText = d.about;
 
-    <nav class="max-w-6xl mx-auto p-8 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center font-bold">V</div>
-            <span class="text-xl font-extrabold tracking-tight uppercase italic">Vantix <span class="text-red-500">PRO</span></span>
-        </div>
-        <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="glass px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-white/5 transition">Creator Portfolio</a>
-    </nav>
+            // --- SERVER STATUS FIX ---
+            const statusValue = d.appServerStatus || "Offline"; // Fallback to Offline if empty
+            const statusDisplay = document.getElementById('appServerStatusDisplay');
+            const statusBorder = document.getElementById('appStatusBorder');
+            const banner = document.getElementById('alertBanner');
 
-    <header class="max-w-5xl mx-auto text-center pt-10 pb-16 px-6">
-        <h1 id="appTitle" class="text-5xl md:text-6xl font-extrabold mb-4 tracking-tighter uppercase leading-tight">--</h1>
-        
-        <div class="grid grid-cols-2 gap-4 max-w-xs mx-auto mb-10">
-            <div class="glass p-3 rounded-xl border-t border-green-500">
-                <p class="text-[9px] font-bold text-gray-500 uppercase">Site Server</p>
-                <p class="text-xs font-black text-green-500 uppercase italic">Online</p>
-            </div>
-            <div class="glass p-3 rounded-xl border-t" id="appStatusBorder">
-                <p class="text-[9px] font-bold text-gray-500 uppercase">App Server</p>
-                <p id="appServerStatusDisplay" class="text-xs font-black uppercase italic tracking-widest">--</p>
-            </div>
-        </div>
+            statusDisplay.innerText = statusValue;
+            
+            if(statusValue.toLowerCase() === "online") {
+                statusDisplay.style.color = "#22c55e"; // Green
+                statusBorder.style.borderColor = "#22c55e";
+                banner.classList.add('hidden');
+            } else {
+                statusDisplay.style.color = "#ef4444"; // Red
+                statusBorder.style.borderColor = "#ef4444";
+                banner.classList.remove('hidden');
+                banner.innerText = `⚠️ SYSTEM ALERT: App Server is currently ${statusValue.toUpperCase()}`;
+            }
 
-        <button class="bg-red-600 px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-xl hover:scale-105 transition-all">Download Latest Build</button>
-    </header>
-
-    <main class="max-w-6xl mx-auto px-6 pb-20 grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <div class="glass p-8 rounded-[2rem] md:col-span-2">
-            <h2 class="text-sm font-black mb-6 uppercase tracking-widest text-red-500 italic">Core Features</h2>
-            <div id="featuresList" class="flex flex-wrap gap-2 italic"></div>
-        </div>
-
-        <div class="glass p-8 rounded-[2.5rem] border-l-4 border-red-600">
-            <h2 class="text-sm font-black mb-6 uppercase tracking-widest text-gray-400 italic">Pipeline List</h2>
-            <ul id="upcomingList" class="space-y-4 text-sm font-medium italic text-gray-300">
-                </ul>
-        </div>
-
-        <section class="glass p-10 rounded-[2.5rem] md:col-span-3">
-            <h2 class="text-xl font-black mb-4 uppercase">Project Overview</h2>
-            <p id="about" class="text-gray-400 text-sm leading-relaxed italic">--</p>
-            <div class="mt-8 pt-6 border-t border-white/5 flex flex-wrap gap-4 justify-between items-center text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                <div>Version: <span id="version" class="text-white">--</span></div>
-                <div>Engine: <span id="platform" class="text-white">--</span></div>
-                <div class="text-red-500">Lead: Kanil Kanchana</div>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        const USER = "kanilkanchana";
-        const REPO = "Movie-Stream"; 
-        const FILE = "data.json";
-
-        async function load() {
-            try {
-                const r = await fetch(`https://raw.githubusercontent.com/${USER}/${REPO}/main/${FILE}?t=${Date.now()}`);
-                const d = await r.json();
+            // --- UPCOMING FEATURES LIST FIX ---
+            if(d.upcoming) {
+                const items = d.upcoming.split(','); // Splits by comma
+                const listContainer = document.getElementById('upcomingList');
+                listContainer.innerHTML = ''; // Clear old list
                 
-                document.getElementById('appTitle').innerText = d.appTitle;
-                document.getElementById('about').innerText = d.about;
-                document.getElementById('version').innerText = d.version;
-                document.getElementById('platform').innerText = d.platform;
+                items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = "flex items-center gap-2 mb-2";
+                    li.innerHTML = `<span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span> ${item.trim()}`;
+                    listContainer.appendChild(li);
+                });
+            }
 
-                // 1. App Server Logic
-                const status = d.appServerStatus || "Offline";
-                const display = document.getElementById('appServerStatusDisplay');
-                const border = document.getElementById('appStatusBorder');
-                const banner = document.getElementById('alertBanner');
+            // --- CURRENT FEATURES TAGS ---
+            if(d.currentFeatures) {
+                const feats = d.currentFeatures.split(',');
+                const featDiv = document.getElementById('featuresList');
+                featDiv.innerHTML = '';
+                feats.forEach(f => {
+                    featDiv.innerHTML += `<span class="feature-tag px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider">${f.trim()}</span>`;
+                });
+            }
 
-                display.innerText = status;
-                
-                if(status.toLowerCase() === "online") {
-                    display.style.color = "#22c55e";
-                    border.style.borderColor = "#22c55e";
-                    banner.classList.add('hidden');
-                } else {
-                    display.style.color = "#ef4444";
-                    border.style.borderColor = "#ef4444";
-                    display.classList.add('animate-pulse');
-                    banner.classList.remove('hidden');
-                    banner.innerText = `⚠️ ALERT: APP SERVER IS ${status.toUpperCase()}. REDIRECTING TO WEB SERVICES.`;
-                }
-
-                // 2. Features tags (Comma split)
-                if(d.currentFeatures) {
-                    const feat = d.currentFeatures.split(',');
-                    const featDiv = document.getElementById('featuresList');
-                    featDiv.innerHTML = '';
-                    feat.forEach(f => {
-                        featDiv.innerHTML += `<span class="feature-tag px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider">${f.trim()}</span>`;
-                    });
-                }
-
-                // 3. Upcoming List (One by One)
-                if(d.upcoming) {
-                    const items = d.upcoming.split(',');
-                    const upList = document.getElementById('upcomingList');
-                    upList.innerHTML = '';
-                    items.forEach(item => {
-                        upList.innerHTML += `<li class="flex items-center gap-3">
-                            <span class="w-2 h-2 bg-red-600 rounded-full shadow-[0_0_8px_rgba(220,38,38,0.5)]"></span> 
-                            <span>${item.trim()}</span>
-                        </li>`;
-                    });
-                }
-
-            } catch(e) { console.error("Sync Error:", e); }
+        } catch(e) { 
+            console.error("Error loading data:", e);
+            document.getElementById('appServerStatusDisplay').innerText = "ERROR";
         }
-        window.onload = load;
-    </script>
-</body>
-</html>
-<body class="hero-glow min-h-screen">
-
-    <div id="alertBanner" class="hidden bg-red-600 text-white text-center py-2 text-[10px] font-black uppercase tracking-[0.2em]">
-        ⚠️ SYSTEM NOTICE: App Server is currently under maintenance. Use Website for now.
-    </div>
-
-    <nav class="max-w-6xl mx-auto p-8 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center font-bold">V</div>
-            <span class="text-xl font-extrabold tracking-tight uppercase italic">Vantix <span class="text-red-500">PRO</span></span>
-        </div>
-        <a href="https://kanilkanchana.github.io/kanil-portfolio/index.html" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-white transition">Portfolio</a>
-    </nav>
-
-    <header class="max-w-5xl mx-auto text-center pt-10 pb-16 px-6">
-        <h1 id="appTitle" class="text-5xl md:text-6xl font-extrabold mb-4 tracking-tighter uppercase leading-tight">--</h1>
-        
-        <div class="grid grid-cols-2 gap-4 max-w-xs mx-auto mb-10">
-            <div class="glass p-3 rounded-xl">
-                <p class="text-[9px] font-bold text-gray-500 uppercase">Site Server</p>
-                <p class="text-xs font-black text-green-500 uppercase italic">Online</p>
-            </div>
-            <div class="glass p-3 rounded-xl border-t border-gray-500" id="appStatusBorder">
-                <p class="text-[9px] font-bold text-gray-500 uppercase">App Server</p>
-                <p id="appServerStatusDisplay" class="text-xs font-black uppercase italic">--</p>
-            </div>
-        </div>
-
-        <button class="bg-red-600 px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-xl hover:bg-red-700 transition">Get Latest APK</button>
-    </header>
-
-    <main class="max-w-6xl mx-auto px-6 pb-20 grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <div class="glass p-8 rounded-[2rem] md:col-span-2">
-            <h2 class="text-sm font-black mb-6 uppercase tracking-widest text-red-500 italic">Live Engine Features</h2>
-            <div id="featuresList" class="flex flex-wrap gap-2 italic"></div>
-        </div>
-
-        <div class="glass p-8 rounded-[2.5rem] border-l-4 border-red-600">
-            <h2 class="text-sm font-black mb-6 uppercase tracking-widest text-gray-400">Pipeline List</h2>
-            <ul id="upcomingList" class="space-y-4 text-sm font-medium italic text-gray-300">
-                </ul>
-        </div>
-
-        <section class="glass p-10 rounded-[2.5rem] md:col-span-3">
-            <h2 class="text-xl font-black mb-4 uppercase">Project Overview</h2>
-            <p id="about" class="text-gray-400 text-sm leading-relaxed italic">--</p>
-        </section>
-    </main>
-
-    <script>
-        const USER = "kanilkanchana";
-        const REPO = "Movie-Stream"; 
-        const FILE = "data.json";
-
-        async function load() {
-            try {
-                const r = await fetch(`https://raw.githubusercontent.com/${USER}/${REPO}/main/${FILE}?t=${Date.now()}`);
-                const d = await r.json();
-                
-                document.getElementById('appTitle').innerText = d.appTitle;
-                document.getElementById('about').innerText = d.about;
-
-                // 1. APP SERVER STATUS LOGIC
-                const status = d.appServerStatus;
-                const statusText = document.getElementById('appServerStatusDisplay');
-                const statusBorder = document.getElementById('appStatusBorder');
-                const banner = document.getElementById('alertBanner');
-
-                statusText.innerText = status;
-                
-                if(status.toLowerCase() === "online") {
-                    statusText.classList.add('text-green-500');
-                    statusBorder.style.borderColor = "#22c55e";
-                    banner.classList.add('hidden');
-                } else {
-                    statusText.classList.add('text-red-500', 'animate-pulse');
-                    statusBorder.style.borderColor = "#ef4444";
-                    banner.classList.remove('hidden');
-                }
-
-                // 2. FEATURES TAGS
-                if(d.currentFeatures) {
-                    const feat = d.currentFeatures.split(',');
-                    const featDiv = document.getElementById('featuresList');
-                    featDiv.innerHTML = '';
-                    feat.forEach(f => {
-                        featDiv.innerHTML += `<span class="feature-tag px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider">${f.trim()}</span>`;
-                    });
-                }
-
-                // 3. UPCOMING LIST (ONE BY ONE)
-                if(d.upcoming) {
-                    const items = d.upcoming.split(',');
-                    const upList = document.getElementById('upcomingList');
-                    upList.innerHTML = '';
-                    items.forEach(item => {
-                        upList.innerHTML += `<li class="flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span> ${item.trim()}
-                        </li>`;
-                    });
-                }
-
-            } catch(e) { console.error(e); }
-        }
-        window.onload = load;
-    </script>
-</body>
-</html>
-
+    }
+    window.onload = load;
+</script>
