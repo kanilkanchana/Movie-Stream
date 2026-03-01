@@ -2,46 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Moviestream Admin | GitHub Live</title>
+    <title>Moviestream | Admin Console</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background: #0b0f19; color: white; }
-        input, textarea { background: #1f2937; border: 1px solid #374151; padding: 12px; border-radius: 8px; color: white; width: 100%; margin-bottom: 15px; outline: none; }
-        input:focus { border-color: #ef4444; }
+        body { background: #020617; color: white; font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        input, textarea { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 8px; color: white; width: 100%; outline: none; transition: 0.3s; }
+        input:focus { border-color: #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
+        label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; margin-top: 15px; }
     </style>
 </head>
-<body class="p-6 md:p-12">
-    <div class="max-w-2xl mx-auto bg-gray-900 p-8 rounded-3xl border border-white/5">
-        <h1 class="text-2xl font-black mb-6 text-red-500 flex items-center gap-2">
-            <span class="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span> LIVE ADMIN PANEL
-        </h1>
+<body class="p-6 md:p-12 flex flex-col items-center">
+
+    <div class="w-full max-w-2xl glass-card p-8 rounded-[2rem] shadow-2xl">
+        <h1 class="text-2xl font-black text-red-600 mb-6 italic tracking-tighter uppercase">Admin Settings</h1>
         
-        <div class="space-y-4">
-            <input type="text" id="appTitle" placeholder="App Title">
-            <input type="text" id="appSubtitle" placeholder="Subtitle/Version Label">
-            <input type="text" id="version" placeholder="Version (e.g. 1.0.5)">
-            <input type="text" id="platform" placeholder="Development Tool">
-            <input type="text" id="status" placeholder="Current Status">
-            <textarea id="about" rows="4" placeholder="App Description"></textarea>
-            
-            <button onclick="updateGitHub()" id="saveBtn" class="w-full bg-red-600 hover:bg-red-700 py-4 rounded-xl font-bold uppercase tracking-widest transition-all">
-                Push Update to GitHub
-            </button>
+        <div class="bg-red-600/10 p-4 rounded-xl border border-red-600/20 mb-8">
+            <label style="margin-top: 0; color: #ef4444;">GitHub Personal Access Token</label>
+            <input type="password" id="githubToken" placeholder="github_pat_xxxxxxx" class="!bg-black/40">
+            <p class="text-[10px] text-gray-500 mt-2">Required to push live updates to GitHub.</p>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+            <div>
+                <label>App Title</label>
+                <input type="text" id="appTitle">
+            </div>
+            <div>
+                <label>Subheading</label>
+                <input type="text" id="appSubtitle">
+            </div>
+            <div>
+                <label>Version</label>
+                <input type="text" id="version">
+            </div>
+            <div>
+                <label>Engine/Platform</label>
+                <input type="text" id="platform">
+            </div>
+            <div>
+                <label>Project Status</label>
+                <input type="text" id="status">
+            </div>
+            <div>
+                <label>Next Feature</label>
+                <input type="text" id="upcoming">
+            </div>
+        </div>
+
+        <label>Description</label>
+        <textarea id="about" rows="4"></textarea>
+
+        <button onclick="pushUpdate()" id="btn" class="w-full bg-red-600 hover:bg-red-700 mt-6 py-4 rounded-xl font-black uppercase tracking-widest transition-all">
+            Update Live Repository
+        </button>
     </div>
 
     <script>
-        const GITHUB_USER = "kanilkanchana";
-        const REPO_NAME = "YOUR_REPO_NAME"; // Change this
-        const JSON_PATH = "data.json";
+        const USER = "kanilkanchana";
+        const REPO = "YOUR_REPO_NAME"; // <-- IMPORTANT: Update this to your Repo Name
+        const FILE = "data.json";
 
-        async function updateGitHub() {
-            const token = prompt("Enter your GitHub Fine-grained Personal Access Token:");
-            if (!token) return;
+        async function pushUpdate() {
+            const token = document.getElementById('githubToken').value;
+            if(!token) { alert("Please enter your GitHub Token in the top field!"); return; }
 
-            const saveBtn = document.getElementById('saveBtn');
-            saveBtn.innerText = "UPLOADING...";
-            saveBtn.disabled = true;
+            const btn = document.getElementById('btn');
+            btn.innerText = "PUSHING DATA...";
+            btn.disabled = true;
 
             const newData = {
                 appTitle: document.getElementById('appTitle').value,
@@ -49,43 +77,31 @@
                 version: document.getElementById('version').value,
                 platform: document.getElementById('platform').value,
                 status: document.getElementById('status').value,
+                upcoming: document.getElementById('upcoming').value,
                 about: document.getElementById('about').value
             };
 
-            const url = `https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${JSON_PATH}`;
+            const url = `https://api.github.com/repos/${USER}/${REPO}/contents/${FILE}`;
 
             try {
-                // 1. Get the current file SHA (required by GitHub to update)
-                const getFile = await fetch(url);
+                const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` }});
+                if(!getFile.ok) throw new Error("Could not find data.json or Token is invalid");
                 const fileData = await getFile.json();
-                const sha = fileData.sha;
-
-                // 2. Push the update
+                
                 const response = await fetch(url, {
                     method: "PUT",
-                    headers: {
-                        "Authorization": `token ${token}`,
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        message: "Admin: Update project details",
-                        content: btoa(JSON.stringify(newData, null, 2)), // Encode to Base64
-                        sha: sha
+                        message: "Admin Live Update",
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
+                        sha: fileData.sha
                     })
                 });
 
-                if (response.ok) {
-                    alert("✅ Update Live! It may take 1-2 minutes for GitHub Pages to refresh.");
-                } else {
-                    const err = await response.json();
-                    alert("❌ Error: " + err.message);
-                }
-            } catch (e) {
-                alert("❌ Connection Failed: " + e.message);
-            } finally {
-                saveBtn.innerText = "Push Update to GitHub";
-                saveBtn.disabled = false;
-            }
+                if(response.ok) alert("✅ UPDATE SUCCESSFUL!");
+                else alert("❌ FAILED: Check Token Permissions");
+            } catch (e) { alert("Error: " + e.message); }
+            finally { btn.innerText = "Update Live Repository"; btn.disabled = false; }
         }
     </script>
 </body>
